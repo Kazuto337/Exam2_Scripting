@@ -15,8 +15,6 @@ public class clock : MonoBehaviour
     public float timeScaleWhenPaused, initialTimeScale;
     public bool isPaused = false;
 
-    //Desde aqui eventos
-
     IClockState states;
     [SerializeField] EventCaller events;
 
