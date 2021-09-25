@@ -5,36 +5,29 @@ using UnityEngine.UI;
 
 public class clock : MonoBehaviour
 {
-    [Tooltip("Tiempo inicial en segundos")]
     public int initialTime;
-
-    [Tooltip("Escala de tiempo del reloj (1, normal, 0, pausa, 2, doble de rapido, -1, atras")]
     [Range(-10.0f,10.0f)]
     public float timeScale = 1;
 
-    private Text myText;
-    private float frameTimeWTimeScale = 0f;
-    private float timeInSecondsToShow = 0f;
-    private float timeScaleWhenPaused, initialTimeScale;
-    private bool isPaused = false;
+    public Text myText;
+    public float frameTimeWTimeScale = 0f;
+    public float timeInSecondsToShow = 0f;
+    public float timeScaleWhenPaused, initialTimeScale;
+    public bool isPaused = false;
 
-    //Desde aqui evento tiempo 0
+    //Desde aqui eventos
 
-    private bool time0Event = false;
+    IClockState states;
+    [SerializeField] EventCaller events;
 
-    public delegate void time0Action();
-
-    public static event time0Action atReaching0;
-
-
-    private void Start()
+    private void Awake()
     {
         initialTimeScale = timeScale;
         myText = GetComponent<Text>();
 
         timeInSecondsToShow = initialTime;
 
-        updateClock(initialTime);
+        UpdateClock(initialTime);
     }
 
     private void Update()
@@ -42,19 +35,50 @@ public class clock : MonoBehaviour
         if (!isPaused)
         {
             frameTimeWTimeScale = Time.deltaTime * timeScale;
-
             timeInSecondsToShow += frameTimeWTimeScale;
-            updateClock(timeInSecondsToShow);
+            UpdateClock(timeInSecondsToShow);
         }
     }
 
-    public void updateClock(float timeInSeconds)
+    private void OnEnable()
+    {
+        events._pause += Stop;
+        events._continue += Play;
+        events._reset += ResetClock;
+    }
+
+    private void OnDisable()
+    {
+        events._pause -= Stop;
+        events._continue -= Play;
+        events._reset -= ResetClock;
+    }
+
+    public void Play()
+    {
+        states = new OnPlayState();
+        states.Execute(this);
+    }
+
+    public void Stop()
+    {
+        states = new OnPauseState();
+        states.Execute(this);
+    }
+
+    public void ResetClock()
+    {
+        states = new OnResetState();
+        states.Execute(this);
+    }
+
+    public void UpdateClock(float timeInSeconds)
     {
         int minutes = 0;
         int seconds = 0;
         string clockText;
 
-        if(timeInSeconds < 0)
+        if (timeInSeconds < 0)
         {
             timeInSeconds = 0;
         }
@@ -65,44 +89,5 @@ public class clock : MonoBehaviour
         clockText = minutes.ToString("00") + ":" + seconds.ToString("00");
 
         myText.text = clockText;
-
-        //desde aqui evento a 0
-
-        if (timeInSeconds <= 0 && !time0Event)
-        {
-            if(atReaching0 != null)
-            {
-                atReaching0();
-            }
-            time0Event = true;
-        }
-    }
-
-    public void Pause()
-    {
-        if (!isPaused)
-        {
-            isPaused = true;
-            timeScaleWhenPaused = timeScale;
-            timeScale = 0;
-        }
-    }
-
-    public void Continue()
-    {
-        if (isPaused)
-        {
-            isPaused = false;
-            timeScale = timeScaleWhenPaused;
-        }
-    }
-
-    public void RestetClock()
-    {
-        isPaused = false;
-        time0Event = false; //Del evento
-        timeScale = initialTimeScale;
-        timeInSecondsToShow = initialTime;
-        updateClock(timeInSecondsToShow);
     }
 }
