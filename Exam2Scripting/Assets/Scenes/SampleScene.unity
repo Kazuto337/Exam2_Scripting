@@ -432,7 +432,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventController: {fileID: 11400000, guid: f6456304753196e44bc9d5447aa28a32, type: 2}
-  button: {fileID: 811468553}
 --- !u!1 &1372104865
 GameObject:
   m_ObjectHideFlags: 0
@@ -445,6 +444,7 @@ GameObject:
   - component: {fileID: 1372104868}
   - component: {fileID: 1372104867}
   - component: {fileID: 1372104869}
+  - component: {fileID: 1372104870}
   m_Layer: 5
   m_Name: Clock
   m_TagString: Untagged
@@ -528,12 +528,24 @@ MonoBehaviour:
   initialTime: 10
   timeScale: -1
   myText: {fileID: 0}
-  frameTimeWTimeScale: 0
   timeInSecondsToShow: 0
   timeScaleWhenPaused: 0
   initialTimeScale: 0
   isPaused: 0
   events: {fileID: 11400000, guid: f6456304753196e44bc9d5447aa28a32, type: 2}
+--- !u!114 &1372104870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372104865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d18c21af449a334c879a867eeac6158, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clock: {fileID: 0}
 --- !u!1 &1430998426
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,7 +693,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventController: {fileID: 11400000, guid: f6456304753196e44bc9d5447aa28a32, type: 2}
-  button: {fileID: 1430998426}
 --- !u!1 &1519059795
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,7 +919,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   eventController: {fileID: 11400000, guid: f6456304753196e44bc9d5447aa28a32, type: 2}
-  button: {fileID: 1615308713}
 --- !u!1 &1699648969
 GameObject:
   m_ObjectHideFlags: 0
